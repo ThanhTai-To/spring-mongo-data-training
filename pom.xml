@@ -16,7 +16,10 @@
 
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
+<!--		<maven.compiler.version>3.8.1</maven.compiler.version>-->
+<!--		<maven.compiler.source>1.8</maven.compiler.source>-->
+<!--		<maven.compiler.target>1.8</maven.compiler.target>-->
 		<swagger-annotations-version>1.5.22</swagger-annotations-version>
 		<modelmapper-version>2.3.4</modelmapper-version>
 	</properties>
@@ -61,12 +64,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>${modelmapper-version}</version>
@@ -90,7 +87,20 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.6.1</version>
 		</dependency>
-	</dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot</artifactId>
+			<version>2.4.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+    </dependencies>
 
 	<build>
 		<plugins>
@@ -141,7 +151,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 
