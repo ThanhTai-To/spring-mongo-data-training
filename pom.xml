@@ -17,9 +17,6 @@
 
 	<properties>
 		<java.version>11</java.version>
-<!--		<maven.compiler.version>3.8.1</maven.compiler.version>-->
-<!--		<maven.compiler.source>1.8</maven.compiler.source>-->
-<!--		<maven.compiler.target>1.8</maven.compiler.target>-->
 		<swagger-annotations-version>1.5.22</swagger-annotations-version>
 		<modelmapper-version>2.3.4</modelmapper-version>
 	</properties>
@@ -29,6 +26,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+<!--			<exclusions>-->
+<!--				<exclusion>-->
+<!--					<groupId>org.springframework.boot</groupId>-->
+<!--					<artifactId>spring-boot-starter-logging</artifactId>-->
+<!--				</exclusion>-->
+<!--			</exclusions>-->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -88,11 +91,11 @@
 			<version>1.6.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot</artifactId>
-			<version>2.4.4</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot</artifactId>-->
+<!--			<version>2.4.4</version>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>junit</groupId>
