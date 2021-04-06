@@ -1,19 +1,30 @@
 package com.pycogroup.superblog.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.querydsl.core.annotations.QueryEntity;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+
+import java.util.ArrayList;
+import java.util.Date;
 
 @Document(collection = "articles")
 @Builder
+@QueryEntity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Article {
 	@Id
 	@Getter
 	private ObjectId id;
+
+
+	@Getter
+	@Setter
+	private String articleId;
 
 	@Getter
 	@Setter
@@ -26,7 +37,18 @@ public class Article {
 
 	@Getter
 	@Setter
-	@DBRef
-	private User author;
+	private String authorEmail;
+
+	@Getter
+	@Setter
+	private Date createdAt;
+
+	@Getter
+	@Setter
+	private ArrayList<String> categories;
+
+	@Getter
+	@Setter
+	private ArrayList<Comment> comments;
 
 }
