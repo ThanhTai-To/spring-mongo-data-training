@@ -1,8 +1,7 @@
-package com.pycogroup.superblog.api.model;
+package com.pycogroup.superblog.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.querydsl.core.annotations.QueryEntity;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,7 +10,11 @@ import java.util.Date;
 
 @Document(collection = "comments")
 @Builder
+@QueryEntity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Comment {
+
     @Id
     @Getter
     private ObjectId id;
@@ -26,7 +29,7 @@ public class Comment {
 
     @Getter
     @Setter
-    private String userId;
+    private String userEmail;
 
     @Getter
     @Setter
