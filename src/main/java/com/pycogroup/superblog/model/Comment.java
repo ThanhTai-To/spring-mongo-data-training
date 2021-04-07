@@ -2,8 +2,6 @@ package com.pycogroup.superblog.model;
 
 import com.querydsl.core.annotations.QueryEntity;
 import lombok.*;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -14,10 +12,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comment {
-
-    @Id
     @Getter
-    private ObjectId id;
+    @Setter
+    private String commentId;
 
     @Getter
     @Setter
@@ -37,6 +34,7 @@ public class Comment {
 
     @Getter
     @Setter
-    private String status;
+    @Builder.Default
+    private String status = "pending";
 
 }
