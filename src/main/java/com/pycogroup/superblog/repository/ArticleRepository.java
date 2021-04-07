@@ -20,4 +20,7 @@ public interface ArticleRepository extends MongoRepository<Article, ObjectId>, Q
     Optional<Article> findByArticleIdAndCommentsCommentId(String articleId, String commentId);
 
     void deleteByArticleId(String articleId);
+
+//    @Query(value = "{ 'articleId' : ?0, 'comments.commentId' : ?1 }", fields = "{ 'comments.commentId' : 1 }", delete = true)
+//    void deleteByArticleIdAndCommentsCommentId(String articleId, String commentId);
 }
