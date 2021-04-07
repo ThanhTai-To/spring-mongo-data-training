@@ -9,8 +9,8 @@ public interface ArticleService {
 	List<Article> getAllArticles();
 	Article createArticle(Article article);
 	String createComment(String articleId, Comment comment);
-	void updateArticle(String articleId, Article article);
-	void updateComment(String articleId, String commentId, String updateCommentAuthorEmail,Comment comment);
-	void deleteArticle(String articleId);
-    void deleteComment(String articleId, String commentId);
+	void updateArticleByArticleId(String articleId, Article article);
+	void updateCommentByCommentId(String articleId, String commentId, String updateCommentAuthorEmail,Comment comment);
+	void deleteArticleByArticleBy(String articleId);
+    void deleteCommentByCommentId(String articleId, String commentId);
 }

@@ -1,11 +1,13 @@
 package com.pycogroup.superblog.service;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.BasicDBObjectBuilder;
+import com.mongodb.DBObject;
 import com.pycogroup.superblog.model.Article;
 import com.pycogroup.superblog.model.Comment;
 import com.pycogroup.superblog.model.User;
 import com.pycogroup.superblog.repository.ArticleRepository;
 import com.pycogroup.superblog.repository.UserRepository;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -94,7 +96,7 @@ public class ArticleServiceImp implements ArticleService {
 
 	// TODO: update category, OR delete old and add new
 	@Override
-	public void updateArticle(String articleId, Article article) {
+	public void updateArticleByArticleId(String articleId, Article article) {
 		// Check if article in db
 		if (isArticleExist(articleId)) {
 			// Find article that matched articleId
@@ -117,7 +119,7 @@ public class ArticleServiceImp implements ArticleService {
 	}
 
 	@Override
-	public void updateComment(String articleId, String commentId, String updateCommentAuthorEmail, Comment updateComment) {
+	public void updateCommentByCommentId(String articleId, String commentId, String updateCommentAuthorEmail, Comment updateComment) {
 		if (isCommentExist(articleId, commentId)) {
 			if (updateCommentAuthorEmail == null) {
 				throwExceptions(HttpStatus.BAD_REQUEST, "authorEmail can not null");
@@ -141,16 +143,18 @@ public class ArticleServiceImp implements ArticleService {
 	}
 
 	@Override
-	public void deleteArticle(String articleId) {
+	public void deleteArticleByArticleBy(String articleId) {
 		if (isArticleExist(articleId)) {
 			articleRepository.deleteByArticleId(articleId);
 		}
 	}
 
 	@Override
-	public void deleteComment(String articleId, String commentId) {
+	public void deleteCommentByCommentId(String articleId, String commentId) {
 		if(isCommentExist(articleId, commentId)) {
-
+			Query findQuery = Query.query(Criteria.where("comments.commentId").is(commentId));
+			Update update = new Update().pull("comments", new BasicDBObject("commentId", commentId));
+			mongoOperations.updateFirst(findQuery, update, Article.class);
 		}
 	}
 
