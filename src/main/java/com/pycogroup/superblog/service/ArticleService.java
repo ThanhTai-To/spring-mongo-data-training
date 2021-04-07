@@ -12,6 +12,5 @@ public interface ArticleService {
 	void updateArticle(String articleId, Article article);
 	void updateComment(String articleId, String commentId, String updateCommentAuthorEmail,Comment comment);
 	void deleteArticle(String articleId);
-
-
+    void deleteComment(String articleId, String commentId);
 }
