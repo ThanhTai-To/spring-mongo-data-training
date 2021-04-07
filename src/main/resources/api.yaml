@@ -260,14 +260,20 @@ components:
     ArticleResponseModel:
       type: object
       properties:
+        articleId:
+          type: string
         title:
           type: string
         content:
           type: string
-        authorName:
+        authorEmail:
           type: string
-        authorId:
+        createdAt:
           type: string
+        categories:
+          type: array
+        comments:
+          type: array
     CreateArticleRequest:
       type: object
       properties:
