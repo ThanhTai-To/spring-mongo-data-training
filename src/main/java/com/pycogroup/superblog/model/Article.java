@@ -41,6 +41,10 @@ public class Article {
 
 	@Getter
 	@Setter
+	private String authorName;
+
+	@Getter
+	@Setter
 	private Date createdAt;
 
 	@Getter
