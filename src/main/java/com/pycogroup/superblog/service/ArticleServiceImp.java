@@ -1,8 +1,6 @@
 package com.pycogroup.superblog.service;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.DBObject;
 import com.pycogroup.superblog.model.Article;
 import com.pycogroup.superblog.model.Comment;
 import com.pycogroup.superblog.model.User;
@@ -176,7 +174,7 @@ public class ArticleServiceImp implements ArticleService {
 	private boolean isCommentExist(String articleId, String commentId) {
 		if (isArticleExist(articleId)) {
 			Optional<Article> article = articleRepository.findByArticleIdAndCommentsCommentId(articleId, commentId);
-			if(!article.isPresent()) {
+			if(article.isEmpty()) {
 				throwExceptions(HttpStatus.NOT_FOUND, "commentId "+ commentId + " does not found");
 			}
 		}
