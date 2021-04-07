@@ -55,7 +55,7 @@ public class ArticleController implements ArticlesApi {
 	@Override
 	public ResponseEntity<ObjectCreationSuccessResponse> updateArticle(String articleId, @Valid UpdateArticleRequest updateArticleRequest) {
 		Article article = modelMapper.map(updateArticleRequest, Article.class);
-		articleService.updateArticle(articleId, article);
+		articleService.updateArticleByArticleId(articleId, article);
 		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
 		result.setId(articleId);
 		result.setResponseCode(200);
@@ -66,7 +66,7 @@ public class ArticleController implements ArticlesApi {
 	@Override
 	public ResponseEntity<ObjectCreationSuccessResponse> updateComment(String articleId, String commentId, @Valid UpdateCommentRequest updateCommentRequest) {
 		Comment comment = modelMapper.map(updateCommentRequest, Comment.class);
-		articleService.updateComment(articleId, commentId, updateCommentRequest.getAuthorEmail() ,comment);
+		articleService.updateCommentByCommentId(articleId, commentId, updateCommentRequest.getAuthorEmail() ,comment);
 		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
 		result.setId(commentId);
 		result.setResponseCode(200);
@@ -75,7 +75,7 @@ public class ArticleController implements ArticlesApi {
 
 	@Override
 	public ResponseEntity<ObjectCreationSuccessResponse> deleteArticle(String articleId) {
-		articleService.deleteArticle(articleId);
+		articleService.deleteArticleByArticleBy(articleId);
 		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
 		result.setId(articleId);
 		result.setResponseCode(HttpStatus.OK.value());
@@ -84,7 +84,7 @@ public class ArticleController implements ArticlesApi {
 
 	@Override
 	public ResponseEntity<ObjectCreationSuccessResponse> deleteComment(String articleId, String commentId) {
-		articleService.deleteComment(articleId, commentId);
+		articleService.deleteCommentByCommentId(articleId, commentId);
 		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
 		result.setId(commentId);
 		result.setResponseCode(HttpStatus.OK.value());
