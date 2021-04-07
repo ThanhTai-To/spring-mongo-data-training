@@ -37,7 +37,7 @@ public class ArticleServiceTest {
 			Article article = Article.builder()
 				.content(RandomStringUtils.random(40))
 				.title(RandomStringUtils.random(500))
-				.author(author)
+				.authorEmail(author.getEmail())
 				.build();
 			mongoTemplate.save(article);
 		}
