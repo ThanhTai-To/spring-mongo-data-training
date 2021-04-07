@@ -77,8 +77,16 @@ public class ArticleController implements ArticlesApi {
 	public ResponseEntity<ObjectCreationSuccessResponse> deleteArticle(String articleId) {
 		articleService.deleteArticle(articleId);
 		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
-		// TODO
 		result.setId(articleId);
+		result.setResponseCode(HttpStatus.OK.value());
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<ObjectCreationSuccessResponse> deleteComment(String articleId, String commentId) {
+		articleService.deleteComment(articleId, commentId);
+		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
+		result.setId(commentId);
 		result.setResponseCode(HttpStatus.OK.value());
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
