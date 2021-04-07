@@ -142,11 +142,16 @@ public class ArticleServiceImp implements ArticleService {
 
 	@Override
 	public void deleteArticle(String articleId) {
-		Article article = articleRepository.findArticleByArticleId(articleId);
-		if (article == null) {
-			throwExceptions(HttpStatus.NOT_FOUND, articleId + " does not found");
+		if (isArticleExist(articleId)) {
+			articleRepository.deleteByArticleId(articleId);
 		}
-		articleRepository.deleteByArticleId(articleId);
+	}
+
+	@Override
+	public void deleteComment(String articleId, String commentId) {
+		if(isCommentExist(articleId, commentId)) {
+
+		}
 	}
 
 	private void throwExceptions(HttpStatus status, String message) {
