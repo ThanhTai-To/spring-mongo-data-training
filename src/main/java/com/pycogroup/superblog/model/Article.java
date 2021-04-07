@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "articles")
 @Builder
@@ -20,7 +21,6 @@ public class Article {
 	@Id
 	@Getter
 	private ObjectId id;
-
 
 	@Getter
 	@Setter
@@ -49,6 +49,6 @@ public class Article {
 
 	@Getter
 	@Setter
-	private ArrayList<Comment> comments;
+	private List<Comment> comments;
 
 }
