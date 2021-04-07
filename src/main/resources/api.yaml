@@ -38,6 +38,122 @@ paths:
               schema:
                 $ref: '#/components/schemas/ObjectCreationSuccessResponse'
 
+  /articles/{articleId}:
+    put:
+      tags:
+        - updateArticle
+      summary: Update article
+      operationId: updateArticle
+      parameters:
+        - name: articleId
+          in: path
+          description: Article ID
+          required: true
+          schema:
+            type: string
+            format: string
+      requestBody:
+        description: Update article
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/UpdateArticleRequest'
+      responses:
+        '200':
+         description: Update article successfully
+         content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectCreationSuccessResponse'
+    delete:
+      tags:
+        - deleteArticle
+      summary: Delete article
+      operationId: deleteArticle
+      parameters:
+        - name: articleId
+          in: path
+          description: Article ID
+          required: true
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: Delete article successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectCreationSuccessResponse'
+  /articles/{articleId}/comments:
+    post:
+      tags:
+        - createComment
+      summary: Create comment
+      operationId: createComment
+      parameters:
+        - name: articleId
+          in: path
+          description: Article ID
+          required: true
+          schema:
+            type: string
+            format: string
+      requestBody:
+        description: Create comment
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/CreateCommentRequest'
+      responses:
+        '200':
+          description: Create comment successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectCreationSuccessResponse'
+  /articles/{articleId}/comments/{commentId}:
+    put:
+      tags:
+        - updateComment
+      summary: Update comment
+      operationId: updateComment
+      parameters:
+        - name: articleId
+          in: path
+          description: Article ID
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: commentId
+          in: path
+          description: Comment ID
+          required: true
+          schema:
+            type: string
+            format: string
+      requestBody:
+        description: Update comment status
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/UpdateCommentRequest'
+      responses:
+        '200':
+          description: Update comment successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectCreationSuccessResponse'
+
+
+
+
+
+
+
+
   /users:
     get:
       tags:
@@ -132,8 +248,41 @@ components:
           type: string
         content:
           type: string
-        authorId:
+        authorEmail:
           type: string
+        createdAt:
+          type: string
+        categories:
+          type: array
+
+    UpdateArticleRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        categories:
+          type: array
+
+    CreateCommentRequest:
+      type: object
+      properties:
+        content:
+          type: string
+        userEmail:
+          type: string
+        userName:
+          type: string
+
+    UpdateCommentRequest:
+      type: object
+      properties:
+        status:
+          type: string
+        authorEmail:
+          type: string
+
     CreateUserRequest:
       type: object
       properties:
