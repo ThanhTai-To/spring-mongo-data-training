@@ -146,6 +146,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ObjectCreationSuccessResponse'
+    delete:
+      tags:
+        - deleteComment
+      summary: Delete comment
+      operationId: deleteComment
+      parameters:
+        - name: articleId
+          in: path
+          description: Article ID
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: commentId
+          in: path
+          description: Comment ID
+          required: true
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: Delete comment successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectCreationSuccessResponse'
 
 
 
