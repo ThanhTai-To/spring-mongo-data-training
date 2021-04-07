@@ -60,4 +60,5 @@ public class UserController implements UsersApi {
 		}
 		return new ResponseEntity<>(userListResponse, HttpStatus.OK);
 	}
+
 }
