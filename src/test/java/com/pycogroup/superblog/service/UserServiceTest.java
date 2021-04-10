@@ -1,5 +1,6 @@
 package com.pycogroup.superblog.service;
 
+import com.pycogroup.superblog.model.Article;
 import com.pycogroup.superblog.model.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;

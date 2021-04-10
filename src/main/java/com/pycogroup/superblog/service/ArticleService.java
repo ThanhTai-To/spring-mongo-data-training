@@ -6,11 +6,18 @@ import com.pycogroup.superblog.model.Comment;
 import java.util.List;
 
 public interface ArticleService {
+
 	List<Article> getAllArticles();
-	Article createArticle(Article article);
-	String createComment(String articleId, Comment comment);
-	void updateArticleByArticleId(String articleId, Article article);
-	void updateCommentByCommentId(String articleId, String commentId, String updateCommentAuthorEmail,Comment comment);
-	void deleteArticleByArticleBy(String articleId);
-    void deleteCommentByCommentId(String articleId, String commentId);
+
+	Article createArticle(Article articleRequest);
+
+    void updateArticle(String articleId, Article article);
+
+    void deleteArticle(String articleId);
+
+    Comment createComment(String articleId, Comment comment);
+
+    void updateComment(String articleId, String commentId, String userUpdateId, String status);
+
+    void deleteComment(String articleId, String commentId);
 }

@@ -26,6 +26,7 @@ paths:
       operationId: createArticle
       requestBody:
         description: Create article
+        required: true
         content:
           'application/json':
             schema:
@@ -78,6 +79,12 @@ paths:
           schema:
             type: string
             format: string
+#      requestBody:
+#        description: Delete article
+#        content:
+#          'application/json':
+#            schema:
+#              $ref: '#/components/schemas/DeleteArticleRequest'
       responses:
         '200':
           description: Delete article successfully
@@ -85,6 +92,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ObjectCreationSuccessResponse'
+
   /articles/{articleId}/comments:
     post:
       tags:
@@ -166,6 +174,12 @@ paths:
           schema:
             type: string
             format: string
+#      requestBody:
+#        description: Delete comment
+#        content:
+#          'application/json':
+#            schema:
+#              $ref: '#/components/schemas/DeleteCommentRequest'
       responses:
         '200':
           description: Delete comment successfully
@@ -174,11 +188,86 @@ paths:
               schema:
                 $ref: '#/components/schemas/ObjectCreationSuccessResponse'
 
+  /categories:
+    get:
+      tags:
+        - getCategoryList
+      summary: Get all categories
+      operationId: getCategoryList
+      responses:
+        '200':
+          description: Get category list successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryListResponse'
+    post:
+      tags:
+        - createCategory
+      summary: Create category
+      operationId: createCategory
+      requestBody:
+        description: Create category
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/CreateCategoryRequest'
+      responses:
+        '200':
+          description: Create category successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectCreationSuccessResponse'
 
-
-
-
-
+  /categories/{categoryId}:
+    put:
+      tags:
+        - updateCategory
+      summary: Update category
+      operationId: updateCategory
+      parameters:
+        - name: categoryId
+          in: path
+          description: Category ID
+          required: true
+          schema:
+            type: string
+            format: string
+      requestBody:
+        description: Update category name
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/UpdateCategoryRequest'
+      responses:
+        '200':
+          description: Update category successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectCreationSuccessResponse'
+    delete:
+      tags:
+        - deleteCategory
+      summary: Delete category
+      operationId: deleteCategory
+      parameters:
+        - name: categoryId
+          in: path
+          description: Category ID
+          required: true
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: Delete category successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectCreationSuccessResponse'
 
 
   /users:
@@ -194,7 +283,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserListResponse'
-
     post:
       tags:
         - createUser
@@ -250,6 +338,40 @@ components:
         email:
           type: string
 
+    CreateUserRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+
+    CategoryListResponse:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryResponseModel'
+    CategoryResponseModel:
+      properties:
+        id:
+          type: string
+        categoryName:
+          type: string
+
+    CreateCategoryRequest:
+      type: object
+      properties:
+        categoryName:
+          type: string
+
+    UpdateCategoryRequest:
+      type: object
+      properties:
+        categoryName:
+          type: string
+
     ArticleListResponse:
       type: object
       properties:
@@ -272,8 +394,30 @@ components:
           type: string
         categories:
           type: array
+          items:
+            $ref: '#/components/schemas/CategoryResponseModel'
         comments:
           type: array
+          items:
+            $ref: '#/components/schemas/CommentModel'
+    CommentModel:
+      type: object
+      properties:
+        commentId:
+          type: string
+        content:
+          type: string
+        userId:
+          type: string
+        userName:
+          type: string
+        articleId:
+          type: string
+        commentedAt:
+          type: string
+        status:
+          type: string
+
     CreateArticleRequest:
       type: object
       properties:
@@ -281,12 +425,12 @@ components:
           type: string
         content:
           type: string
-        authorEmail:
-          type: string
-        createdAt:
+        authorId:
           type: string
         categories:
           type: array
+          items:
+            $ref: '#/components/schemas/CategoryResponseModel'
 
     UpdateArticleRequest:
       type: object
@@ -295,17 +439,24 @@ components:
           type: string
         content:
           type: string
+        authorId:
+          type: string
         categories:
           type: array
+          items:
+            $ref: '#/components/schemas/CategoryResponseModel'
+#    DeleteArticleRequest:
+#      type: object
+#      properties:
+#        userId:
+#          type: string
 
     CreateCommentRequest:
       type: object
       properties:
         content:
           type: string
-        userEmail:
-          type: string
-        userName:
+        userId:
           type: string
 
     UpdateCommentRequest:
@@ -313,17 +464,14 @@ components:
       properties:
         status:
           type: string
-        authorEmail:
+        userUpdateId:
           type: string
 
-    CreateUserRequest:
-      type: object
-      properties:
-        name:
-          type: string
-        email:
-          type: string
-
+#    DeleteCommentRequest:
+#      type: object
+#      properties:
+#        userDeleteId:
+#          type: string
 
     ObjectCreationSuccessResponse:
       type: object

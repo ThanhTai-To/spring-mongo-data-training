@@ -6,9 +6,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Document(collection = "articles")
@@ -19,11 +17,7 @@ import java.util.List;
 public class Article {
 	@Id
 	@Getter
-	private ObjectId id;
-
-	@Getter
-	@Setter
-	private String articleId;
+	private ObjectId articleId;
 
 	@Getter
 	@Setter
@@ -36,16 +30,22 @@ public class Article {
 
 	@Getter
 	@Setter
-	private String authorEmail;
+	private String authorId;
 
 	@Getter
 	@Setter
-	private Date createdAt;
+	private String authorName;
 
 	@Getter
 	@Setter
-	private ArrayList<String> categories;
+	private LocalDateTime createdAt;
 
+	// It contains a array of category names
+	@Getter
+	@Setter
+	private List<Category> categories;
+
+	// It contains 10 latest comments
 	@Getter
 	@Setter
 	private List<Comment> comments;

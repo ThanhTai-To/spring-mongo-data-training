@@ -35,13 +35,16 @@ public class UserController implements UsersApi {
 
 	@Override
 	public ResponseEntity<ObjectCreationSuccessResponse> createUser(@Valid CreateUserRequest createUserRequest) {
+		log.info("\nUserController: Start createUser");
 		User user = modelMapper.map(createUserRequest, User.class);
 		User persistUser = userService.createUser(user);
+		log.info("\nUserController: End userService.createUser() ");
 		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
 		result.setId(persistUser.getId().toString());
 		result.setResponseCode(HttpStatus.CREATED.value());
 		return new ResponseEntity<>(result, HttpStatus.CREATED);
 	}
+
 
 	@Override
 	public ResponseEntity<UserListResponse> findUserByEmail(@Valid String email) {

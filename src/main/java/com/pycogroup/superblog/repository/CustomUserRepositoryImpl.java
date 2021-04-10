@@ -1,8 +1,8 @@
 package com.pycogroup.superblog.repository;
 
-import com.mongodb.WriteResult;
-import com.mongodb.client.result.UpdateResult;
+
 import com.pycogroup.superblog.model.User;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -29,5 +29,11 @@ public class CustomUserRepositoryImpl implements  CustomUserRepository {
 		Update update = new Update();
 		update.set("enabled", false);
 		mongoTemplate.updateFirst(query, update, User.class);
+	}
+
+	@Override
+	public User findUserById(String userId) {
+		Query query = new Query(Criteria.where("_id").is(new ObjectId(userId)));
+		return  mongoTemplate.findOne(query, User.class);
 	}
 }

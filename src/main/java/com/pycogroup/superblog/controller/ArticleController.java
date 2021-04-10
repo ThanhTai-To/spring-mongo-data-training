@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @Slf4j
 public class ArticleController implements ArticlesApi {
+
 	@Autowired
 	private ArticleService articleService;
 
@@ -31,51 +32,35 @@ public class ArticleController implements ArticlesApi {
 	}
 
 	@Override
-	public ResponseEntity<ObjectCreationSuccessResponse> createArticle(@Valid CreateArticleRequest createArticleRequest)  {
+	public ResponseEntity<ObjectCreationSuccessResponse> createArticle(@Valid CreateArticleRequest createArticleRequest) {
+		log.info("\nArticleController: Start map article class");
 		Article article = modelMapper.map(createArticleRequest, Article.class);
-		articleService.createArticle(article);
+		log.info("\nArticleController: End mapping\nStart articleService.createArticle()");
+		Article persistArticle = articleService.createArticle(article);
+		log.info("\nArticleController: End articleService.createArticle()");
 		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
-		result.setId(article.getArticleId());
+		result.setId(persistArticle.getArticleId().toString());
 		result.setResponseCode(HttpStatus.CREATED.value());
 		return new ResponseEntity<>(result, HttpStatus.CREATED);
 	}
 
-	@Override
-	public ResponseEntity<ObjectCreationSuccessResponse> createComment(String articleId, @Valid CreateCommentRequest createCommentRequest) {
-		Comment comment =  modelMapper.map(createCommentRequest, Comment.class);
-		String commentId = articleService.createComment(articleId, comment);
-		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
-		result.setId(commentId);
-		result.setResponseCode(HttpStatus.CREATED.value());
-		return new ResponseEntity<>(result, HttpStatus.CREATED);
-	}
-
-	// Can only update article title, content, categories
-	// Update any of above fields if it is not null
 	@Override
 	public ResponseEntity<ObjectCreationSuccessResponse> updateArticle(String articleId, @Valid UpdateArticleRequest updateArticleRequest) {
 		Article article = modelMapper.map(updateArticleRequest, Article.class);
-		articleService.updateArticleByArticleId(articleId, article);
+		log.info("\nArticleController: Start articleService.updateArticle()");
+		articleService.updateArticle(articleId, article);
+		log.info("\nArticleController: End articleService.updateArticle()");
 		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
 		result.setId(articleId);
 		result.setResponseCode(200);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-	// Only allow article author can update status of comment
-	@Override
-	public ResponseEntity<ObjectCreationSuccessResponse> updateComment(String articleId, String commentId, @Valid UpdateCommentRequest updateCommentRequest) {
-		Comment comment = modelMapper.map(updateCommentRequest, Comment.class);
-		articleService.updateCommentByCommentId(articleId, commentId, updateCommentRequest.getAuthorEmail() ,comment);
-		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
-		result.setId(commentId);
-		result.setResponseCode(200);
-		return new ResponseEntity<>(result, HttpStatus.OK);
-	}
-
 	@Override
 	public ResponseEntity<ObjectCreationSuccessResponse> deleteArticle(String articleId) {
-		articleService.deleteArticleByArticleBy(articleId);
+		log.info("\nArticleController: Start articleService.deleteArticle()");
+		articleService.deleteArticle(articleId);
+		log.info("\nArticleController: End articleService.deleteArticle()");
 		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
 		result.setId(articleId);
 		result.setResponseCode(HttpStatus.OK.value());
@@ -83,8 +68,34 @@ public class ArticleController implements ArticlesApi {
 	}
 
 	@Override
+	public ResponseEntity<ObjectCreationSuccessResponse> createComment(String articleId, @Valid CreateCommentRequest createCommentRequest) {
+		log.info("\nArticleController: Start mapping");
+		Comment comment =  modelMapper.map(createCommentRequest, Comment.class);
+		log.info("\nArticleController: Start articleService.createComment()");
+		Comment persistComment = articleService.createComment(articleId, comment);
+		log.info("\nArticleController: End articleService.createComment()");
+		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
+		result.setId(persistComment.getCommentId());
+		result.setResponseCode(HttpStatus.CREATED.value());
+		return new ResponseEntity<>(result, HttpStatus.CREATED);
+	}
+
+	@Override
+	public ResponseEntity<ObjectCreationSuccessResponse> updateComment(String articleId, String commentId, @Valid UpdateCommentRequest updateCommentRequest) {
+		log.info("\nArticleController: Start articleService.updateComment()");
+		articleService.updateComment(articleId, commentId, updateCommentRequest.getUserUpdateId(), updateCommentRequest.getStatus());
+		log.info("\nArticleController: End articleService.updateComment()");
+		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
+		result.setId(commentId);
+		result.setResponseCode(200);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+
+	@Override
 	public ResponseEntity<ObjectCreationSuccessResponse> deleteComment(String articleId, String commentId) {
-		articleService.deleteCommentByCommentId(articleId, commentId);
+		log.info("\nArticleController: Start articleService.deleteComment()");
+		articleService.deleteComment(articleId, commentId);
+		log.info("\nArticleController: Start articleService.deleteComment()");
 		ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
 		result.setId(commentId);
 		result.setResponseCode(HttpStatus.OK.value());
@@ -93,7 +104,6 @@ public class ArticleController implements ArticlesApi {
 
 	private ResponseEntity<ArticleListResponse> buildArticleListResponse(List<Article> articleList) {
 		ArticleListResponse articleListResponse = new ArticleListResponse();
-
 		if (articleList != null) {
 			articleList.forEach(item -> articleListResponse.addArticlesItem(modelMapper.map(item, com.pycogroup.superblog.api.model.ArticleResponseModel.class)));
 		}
