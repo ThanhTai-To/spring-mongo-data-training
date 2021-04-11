@@ -5,6 +5,7 @@ import com.pycogroup.superblog.api.model.CategoryListResponse;
 import com.pycogroup.superblog.api.model.CreateCategoryRequest;
 import com.pycogroup.superblog.api.model.ObjectCreationSuccessResponse;
 import com.pycogroup.superblog.api.model.UpdateCategoryRequest;
+import com.pycogroup.superblog.exception.ResourceNotFoundException;
 import com.pycogroup.superblog.model.Category;
 import com.pycogroup.superblog.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,9 @@ public class CategoryController implements CategoriesApi {
         log.info("\nCategoryController: Start categoryService.createCategory()");
         Category persistCategory = categoryService.createCategory(category);
         log.info("\nCategoryController: End categoryService.createCategory()");
+        if (persistCategory == null) {
+            throw new ResourceNotFoundException("category can not create");
+        }
         ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
         result.setId(persistCategory.getCategoryId().toString());
         result.setResponseCode(HttpStatus.CREATED.value());
