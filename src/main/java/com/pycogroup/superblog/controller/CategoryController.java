@@ -40,9 +40,6 @@ public class CategoryController implements CategoriesApi {
         log.info("\nCategoryController: Start categoryService.createCategory()");
         Category persistCategory = categoryService.createCategory(category);
         log.info("\nCategoryController: End categoryService.createCategory()");
-        if (persistCategory == null) {
-            throw new ResourceNotFoundException("category can not create");
-        }
         ObjectCreationSuccessResponse result = new ObjectCreationSuccessResponse();
         result.setId(persistCategory.getCategoryId().toString());
         result.setResponseCode(HttpStatus.CREATED.value());

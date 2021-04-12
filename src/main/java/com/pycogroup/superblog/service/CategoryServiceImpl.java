@@ -1,6 +1,7 @@
 package com.pycogroup.superblog.service;
 
 
+import com.pycogroup.superblog.exception.AlreadyExistedException;
 import com.pycogroup.superblog.exception.BadRequestException;
 import com.pycogroup.superblog.exception.ResourceNotFoundException;
 import com.pycogroup.superblog.model.Category;
@@ -10,6 +11,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +31,18 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category createCategory(Category category) {
-        category.setCategoryName(category.getCategoryName().toLowerCase());
+        String categoryName = category.getCategoryName().toLowerCase();
+        List<String> categoryNames = new ArrayList<>();
+        List<Category> categories = getAllCategories();
+        if (categories != null) {
+            categories.forEach(c -> {
+                categoryNames.add(c.getCategoryName());
+            });
+            if (categoryNames.contains(categoryName)) {
+                throw new AlreadyExistedException("categoryName-" + categoryName + " already existed");
+            }
+        }
+        category.setCategoryName(categoryName);
         return categoryRepository.save(category);
     }
 
