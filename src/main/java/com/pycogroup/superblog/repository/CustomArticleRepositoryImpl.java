@@ -63,7 +63,7 @@ public class CustomArticleRepositoryImpl implements CustomArticleRepository {
         return query;
     }
 
-    private Query findCategoryByCategoryId(String categoryId) {
+    public Query findCategoryByCategoryId(String categoryId) {
         return new Query(Criteria.where("categories.categoryId").is(categoryId));
     }
 

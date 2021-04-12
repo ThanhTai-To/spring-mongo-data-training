@@ -29,7 +29,7 @@ public class UserRepositoryTest {
 		mongoTemplate.remove(User.class).all();
 		mongoTemplate.save(User.builder()
 			.name(RandomStringUtils.random(40))
-			.email("testuser1@local")
+			.email("testuser1@local1")
 			.address(new Address("123 Truong Dinh, Q3", "HCM", "VietNam"))
 			.build());
 		mongoTemplate.save(User.builder()
@@ -49,6 +49,14 @@ public class UserRepositoryTest {
 	public void testFindByAddressReturnEnoughQuantity() {
 		List<User> userList = userRepository.findByCountry("VietNam");
 		Assert.assertEquals(2, userList.size());
+	}
+
+	@Test
+	public void testBanUserByEmail() {
+		String userEmail = "testuser1@local1";
+		userRepository.banUserByEmail(userEmail);
+		User banUser = userRepository.findByEmail(userEmail);
+		Assert.assertEquals(false, banUser.getEnabled());
 	}
 
 

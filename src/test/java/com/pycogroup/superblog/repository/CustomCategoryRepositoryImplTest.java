@@ -2,21 +2,15 @@ package com.pycogroup.superblog.repository;
 
 import com.pycogroup.superblog.model.Category;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.bson.types.ObjectId;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.validation.constraints.AssertTrue;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -27,6 +21,13 @@ public class CustomCategoryRepositoryImplTest {
 
     @Autowired
     private CustomCategoryRepositoryImpl customCategoryRepositoryImpl;
+
+    private Category initACategory() {
+        mongoOperations.remove(Category.class).all();
+        return mongoOperations.save(Category.builder()
+                .categoryName(RandomStringUtils.random(15))
+                .build());
+    }
 
     @Test
     public void testUpdateCategoryNameWithCorrectCategoryId() {
@@ -45,9 +46,10 @@ public class CustomCategoryRepositoryImplTest {
         Category category = initACategory();
         String[] categoryNamesArray = {"food", "travel", "education", category.getCategoryName()};
         List<String> categoryNames = Arrays.asList(categoryNamesArray);
-        List<Category> categoryList = customCategoryRepositoryImpl.findByCategoryNameIn(categoryNames);
-        categoryList.forEach(categoryInList -> {
-            Assert.assertEquals(category.getCategoryName(), categoryInList.getCategoryName());
+        List<Category> categoryListActual = customCategoryRepositoryImpl.findByCategoryNameIn(categoryNames);
+        categoryListActual.forEach(categoryInList -> {
+            Assert.assertEquals(category.getCategoryName(),categoryInList.getCategoryName());
+            Assert.assertTrue(categoryNames.contains(categoryInList.getCategoryName()));
         });
     }
 
@@ -61,28 +63,4 @@ public class CustomCategoryRepositoryImplTest {
             throw new AssertionError();
         }
     }
-
-    @Test
-    public void testQuery() {
-        Category category = initACategory();
-        String[] categoryNamesArray = {"food", "travel", "education", category.getCategoryName()};
-        List<String> categoryNames = Arrays.asList(categoryNamesArray);
-        Query query = new Query();
-        query.addCriteria(Criteria.where("categoryName").in(categoryNames));
-        List<Category> categoryListExpected = mongoOperations.find(query, Category.class);
-        List<Category> categoryListActual = customCategoryRepositoryImpl.findByCategoryNameIn(categoryNames);
-
-        categoryListExpected.forEach(c -> {
-            Assert.assertTrue(categoryNames.contains(c.getCategoryName()));
-        });
-    }
-
-    private Category initACategory() {
-        mongoOperations.remove(Category.class).all();
-        return mongoOperations.save(Category.builder()
-                .categoryName(RandomStringUtils.random(15))
-                .build());
-    }
-
-
 }
