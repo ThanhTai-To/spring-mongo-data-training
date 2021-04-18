@@ -44,6 +44,17 @@ public class UserServiceTest {
 	}
 
 	@Test
+	public void createUser() {
+		User user = User.builder()
+				.name("thanhtai")
+				.email("thanhtai1789@gmail.com")
+				.build();
+		User createdUser = userService.createUser(user);
+		Assert.assertEquals(user.getName(), createdUser.getName());
+		Assert.assertEquals(user.getEmail(), createdUser.getEmail());
+	}
+
+	@Test
 	public void testFindAllMustReturnEnoughQuantity() {
 		List<User> userList = userService.getAllUsers();
 		Assert.assertEquals(3, userList.size());
